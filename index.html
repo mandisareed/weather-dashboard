@@ -1,68 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather Dashboard</title>
-</head>
-<body>
+  </head>
+  <body>
     <form>
-        <h2>Enter a city below to view information on its weather.</h2>
-        <input type="text" placeholder="city name" class="city-input"/>
-        <!--remove these breaks from html. style this with css later with margins/padding-->
-        <br>
-        <br>
+      <h2>Enter a city below to view information on its weather.</h2>
+      <input type="text" placeholder="city name" class="city-input" />
+      <!--remove these breaks from html. style this with css later with margins/padding-->
+      <br />
+      <br />
     </form>
-         <button type="submit" id="submit-city-btn">Get info!</button>  
-    
-         <!--Retrieved data will be stored here-->    
+    <button type="submit" id="submit-city-btn">Get info!</button>
+
+    <!--Retrieved data will be stored here-->
     <container>
-        <div class="city-name">City: </div>
-        <div class="date"></div>
-        <div class="weather-img"></div>
-        <div class="temp"></div>
-        <div class="humidity"></div>
-        <div class="wind-speed"></div>
-        <div class="uv-index"></div>
+      <div class="city-name"></div>
+      <div class="date"></div>
+      <div class="weather-img"></div>
+      <div class="tempF"></div>
+      <div class="humidity"></div>
+      <div class="wind-speed"></div>
+      <div class="uv-index"></div>
     </container>
 
     <script
-        src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-        crossorigin="anonymous"
-      ></script>
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"
+    ></script>
     <!--<script src="./script.js"></script> -->
     <script>
-        var apiKey = "7e9791df05c08ac90ec357d00e62c2f9";
+              var apiKey = "7e9791df05c08ac90ec357d00e62c2f9";
 
-$("#submit-city-btn").on("click", function() {
-    //not sure if I need to prevent default yet...
-    //event.preventDefault;
-    var city = $(".city-input").val();
-    var queryURL =
-    "https://api.openweathermap.org/data/2.5/weather?q=" 
-    + city 
-    + "&appid=" 
-    + apiKey;
-    var temp = 
-    "https://api.openweathermap.org/data/2.5/weather?q=" 
-    + city 
-    + "&appid=" 
-    + apiKey
-    + "units=imperial";
+      $("#submit-city-btn").on("click", function() {
+          //not sure if I need to prevent default yet...
+          //event.preventDefault;
+          var city = $(".city-input").val();
+          var queryURL =
+          "https://api.openweathermap.org/data/2.5/weather?q="
+          + city
+          + "&appid="
+          + apiKey;
 
-    $.ajax({
-    url: queryURL,
-    method: "GET",
-}).then(function (response) {
-    var results = response.data;
-    console.log(response);
-    $(".city-name").append(response.name);
-    console.log(response.name);
-    console.log(response.main.temp);
 
-});
-});
+          $.ajax({
+          url: queryURL,
+          method: "GET",
+      }).then(function (response) {
+          var results = response.data;
+          //console log the resulting object (response)
+          console.log(response);
+
+
+          //append the results to the html
+          $(".city-name").text("City: " + response.name);
+          var tempF = (response.main.temp - 273.15) * 1.8 + 32;
+          $(".tempF").text("Temperature: " + tempF.toFixed(2) + " F");
+          $(".humidity").text("Humidity: " + response.main.humidity);
+          $(".wind-speed").text("Wind Speed: " + response.wind.speed + " mph");
+          
+
+          //console log the individual results as well
+          console.log(response.name);
+          console.log(tempF);
+          console.log(response.main.humidity);
+          console.log(response.wind.speed);
+
+          var lat = response.coord.lat;
+          console.log(lat);
+          var long = response.coord.lon;
+          console.log(long);
+          
+          var queryURL =
+      "http://api.openweathermap.org/data/2.5/uvi?appid="
+      + apiKey + "&lat=" + lat + "&lon=" + long;
+      
+      $.ajax({
+          url: queryURL,
+          method: "GET",
+      }).then(function (response2) {
+          //var lat = response.coord.lat
+          //var long = response.coord.lon
+          //$(".uvIndex").text("UV Index: " + "words");
+          console.log(response2);
+
+          $(".uv-index").text("UV Index: " + response2.value);
+        })
+      });
+
+
+      });
     </script>
-</body>
+  </body>
 </html>
