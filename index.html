@@ -8,14 +8,61 @@
 <body>
     <form>
         <h2>Enter a city below to view information on its weather.</h2>
-        <input type="text" placeholder="city name" id="city-input"/>
+        <input type="text" placeholder="city name" class="city-input"/>
         <!--remove these breaks from html. style this with css later with margins/padding-->
         <br>
         <br>
-        <button id="submit-city-btn">Get info!</button>
     </form>
+         <button type="submit" id="submit-city-btn">Get info!</button>  
+    
+         <!--Retrieved data will be stored here-->    
+    <container>
+        <div class="city-name">City: </div>
+        <div class="date"></div>
+        <div class="weather-img"></div>
+        <div class="temp"></div>
+        <div class="humidity"></div>
+        <div class="wind-speed"></div>
+        <div class="uv-index"></div>
+    </container>
 
+    <script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"
+      ></script>
+    <!--<script src="./script.js"></script> -->
+    <script>
+        var apiKey = "7e9791df05c08ac90ec357d00e62c2f9";
 
-    <script src="./script.js"></script>
+$("#submit-city-btn").on("click", function() {
+    //not sure if I need to prevent default yet...
+    //event.preventDefault;
+    var city = $(".city-input").val();
+    var queryURL =
+    "https://api.openweathermap.org/data/2.5/weather?q=" 
+    + city 
+    + "&appid=" 
+    + apiKey;
+    var temp = 
+    "https://api.openweathermap.org/data/2.5/weather?q=" 
+    + city 
+    + "&appid=" 
+    + apiKey
+    + "units=imperial";
+
+    $.ajax({
+    url: queryURL,
+    method: "GET",
+}).then(function (response) {
+    var results = response.data;
+    console.log(response);
+    $(".city-name").append(response.name);
+    console.log(response.name);
+    console.log(response.main.temp);
+
+});
+});
+    </script>
 </body>
 </html>
