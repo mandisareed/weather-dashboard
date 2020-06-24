@@ -27,27 +27,23 @@ $(document).ready(function () {
       forecastDays.push(response.list[32]);
 
       //pull data needed to display in html div
-      var cityName = response.city.name;
-      console.log(cityName);
+      //loop through it
+      for (var i = 0; i < forecastDays.length; i ++) { 
 
-      var date = response.list[0].dt_txt;
-      console.log(date);
+      var cityNameEl = $("<div>").text(response.city.name);
+      var dateEL = $("<div>").text(response.list[0].dt_txt);
+      var iconEl = $("<div>").text(response.list[0].weather.icon);
+      var tempEl = $("<div>").text(response.list[0].main.temp);
+      var humidityEl = $("<div>").text(response.list[0].main.humidity);
+      var windspeedEL = $("<div>").text(response.list[0].wind.speed);
+      //create a var for UV index (will need long + lat). will prob need to create another URL query
 
-      var icon = response.list[0].weather.icon;
-      console.log(icon);
-
-      var temp = response.list[0].main.temp;
-      console.log(temp);
-
-      var humidity = response.list[0].main.humidity;
-      console.log(humidity);
-
-      var windspeed = response.list[0].wind.speed;
-      console.log(windspeed);
-
-      //create a var for UV index (will need long + lat)
-
-      
+      //create a div to hold the data variables above
+      var dataContainer = $("<div>").addClass("forecast-data1");
+      dataContainer.append(cityNameEl, dateEL, iconEl, tempEl, humidityEl, windspeedEL);
+      //append the data Container to the html
+      $("#forecast-data-display").append(dataContainer);
+    }
     });
   });
 });
