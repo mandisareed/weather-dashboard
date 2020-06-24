@@ -1,25 +1,29 @@
-var apiKey = "7e9791df05c08ac90ec357d00e62c2f9";
+$(document).ready(function () {
+  console.log("ready!");
 
-$("#submit-city-btn").on("click", function() {
-    //not sure if I need to prevent default yet...
-    //event.preventDefault;
-    var city = $(".city-input").val();
+  $("#search-button").on("click", function () {
+
+  var apiKey = "7e9791df05c08ac90ec357d00e62c2f9";
+  var city = $("#city-input").val();
+
     var queryURL =
-    "https://api.openweathermap.org/data/2.5/weather?q=" 
-    + city 
-    + "&appid=" 
-    + apiKey;
-    alert("button has been clicked");
+      "https://api.openweathermap.org/data/2.5/forecast?q=" +
+      city +
+      "&appid=" +
+      apiKey +
+      "&units=imperial";
 
     $.ajax({
-    url: queryURL,
-    method: "GET",
-}).then(function (response) {
-    var results = response.data;
-    console.log(queryURL);
-    console.log(response);
-
-});
-
-
+      url: queryURL,
+      method: "GET",
+    }).then(function (response) {
+      console.log(response);
+      //var forecastDays = [];
+      console.log(response.list[0]);
+      console.log(response.list[8]);
+      console.log(response.list[16]);
+      console.log(response.list[24]);
+      console.log(response.list[32]);
+    });
+  });
 });
