@@ -18,12 +18,36 @@ $(document).ready(function () {
       method: "GET",
     }).then(function (response) {
       console.log(response);
-      //var forecastDays = [];
-      console.log(response.list[0]);
-      console.log(response.list[8]);
-      console.log(response.list[16]);
-      console.log(response.list[24]);
-      console.log(response.list[32]);
+
+      var forecastDays = [];
+      forecastDays.push(response.list[0]);
+      forecastDays.push(response.list[8]);
+      forecastDays.push(response.list[16]);
+      forecastDays.push(response.list[24]);
+      forecastDays.push(response.list[32]);
+
+      //pull data needed to display in html div
+      var cityName = response.city.name;
+      console.log(cityName);
+
+      var date = response.list[0].dt_txt;
+      console.log(date);
+
+      var icon = response.list[0].weather.icon;
+      console.log(icon);
+
+      var temp = response.list[0].main.temp;
+      console.log(temp);
+
+      var humidity = response.list[0].main.humidity;
+      console.log(humidity);
+
+      var windspeed = response.list[0].wind.speed;
+      console.log(windspeed);
+
+      //create a var for UV index (will need long + lat)
+
+      
     });
   });
 });
