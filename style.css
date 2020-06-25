@@ -1,5 +1,9 @@
-.forecast-data1 {
+.forecast-data-container {
     margin: 10px;
     padding: 10px;
+    background-color: rgb(12, 55, 197);
+    color: blanchedalmond;
+    font-weight: bold;
+    float: left;
 }
 

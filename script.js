@@ -1,5 +1,4 @@
 $(document).ready(function () {
-  console.log("ready!");
 
   $("#search-button").on("click", function () {
 
@@ -19,31 +18,38 @@ $(document).ready(function () {
     }).then(function (response) {
       console.log(response);
 
+      var testDate = new Date(1593021600*1000);
+      console.log(testDate);
+
       var forecastDays = [];
-      forecastDays.push(response.list[0]);
-      forecastDays.push(response.list[8]);
-      forecastDays.push(response.list[16]);
-      forecastDays.push(response.list[24]);
-      forecastDays.push(response.list[32]);
+      forecastDays.push(response.list[2]);
+      forecastDays.push(response.list[10]);
+      forecastDays.push(response.list[18]);
+      forecastDays.push(response.list[26]);
+      forecastDays.push(response.list[34]);
 
       //pull data needed to display in html div
       //loop through it
       for (var i = 0; i < forecastDays.length; i ++) { 
-
+      var dataContainer = $("<div>").addClass("forecast-data-container");
       var cityNameEl = $("<div>").text(response.city.name);
-      var dateEL = $("<div>").text(response.list[0].dt_txt);
-      var iconEl = $("<div>").text(response.list[0].weather.icon);
-      var tempEl = $("<div>").text(response.list[0].main.temp);
-      var humidityEl = $("<div>").text(response.list[0].main.humidity);
-      var windspeedEL = $("<div>").text(response.list[0].wind.speed);
+      var dateEL = $("<div>").text(forecastDays[i].dt_txt);
+      var iconID = forecastDays[i].weather[0].icon;
+      var weatherIcon = "http://openweathermap.org/img/wn/" + iconID + "@2x.png";
+      var iconEl = $("<div>").prepend("<img src='"+ weatherIcon + "' alt='Weather Icon' />")
+      var tempEl = $("<div>").text("Temperature: " + forecastDays[i].main.temp + " °F");
+      var humidityEl = $("<div>").text("Humidity: " + forecastDays[i].main.humidity);
+      //var windspeedEL = $("<div>").text("Wind Speed: " + forecastDays[i].wind.speed + " mph");
       //create a var for UV index (will need long + lat). will prob need to create another URL query
 
-      //create a div to hold the data variables above
-      var dataContainer = $("<div>").addClass("forecast-data1");
-      dataContainer.append(cityNameEl, dateEL, iconEl, tempEl, humidityEl, windspeedEL);
+      
+      dataContainer.append(cityNameEl, dateEL, iconEl, tempEl, humidityEl);
       //append the data Container to the html
       $("#forecast-data-display").append(dataContainer);
-    }
+
+    
+
+      }
     });
   });
 });
