@@ -70,6 +70,7 @@ $(document).ready(function () {
         windspeedEL,
         uvEl
       );
+
       $("#current").empty();
       $("#current").append(currentContainer);
 
